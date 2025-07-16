@@ -1,0 +1,127 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.claro {
+  background: #f0fff0;
+  color: #083d20;
+}
+
+body.oscuro {
+  background: #022b14;
+  color: #e0ffe1;
+}
+
+header {
+  background: #1e5631;
+  padding: 1rem;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.contenedor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+#hamburguesa {
+  display: none;
+  background: none;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.banner {
+  text-align: center;
+  padding: 2rem;
+  background: #d4f5d1;
+}
+
+.banner img {
+  max-width: 100%;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+}
+
+section {
+  padding: 2rem;
+  border-bottom: 1px solid #ccc;
+}
+
+form label,
+form select {
+  display: block;
+  margin: 0.5rem 0;
+}
+
+.metodos button {
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #2f8f2f;
+  color: white;
+  border: none;
+  border-radius: 10px;
+}
+
+.carrito {
+  margin-top: 1rem;
+  background: #def7d4;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.finalizar {
+  padding: 0.5rem 1rem;
+  background: #1c4c1c;
+  color: white;
+  border: none;
+  border-radius: 10px;
+}
+
+footer {
+  background: #1e5631;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+.redes img {
+  width: 24px;
+  margin: 0 10px;
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    display: none;
+    flex-direction: column;
+    background: #1e5631;
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    padding: 1rem;
+    border-radius: 10px;
+  }
+  nav ul.abierto {
+    display: flex;
+  }
+  #hamburguesa {
+    display: block;
+  }
+}

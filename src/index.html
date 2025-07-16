@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiskyThamis - Yogur Artesanal Chiclayo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #e6f0fa;
+            --primary-text: #1e40af;
+            --navbar-bg: #3b82f6;
+            --accent-coral: #f472b6;
+            --btn-blue: #3b82f6;
+            --btn-blue-hover: #60a5fa;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--primary-bg);
+            color: var(--primary-text);
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+        .dark-mode {
+            --primary-bg: #1e3a8a;
+            --primary-text: #a3bffa;
+            --navbar-bg: #1e40af;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--navbar-bg);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 0.75rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar a {
+            color: #dbeafe;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+        }
+        .navbar a:hover { color: #93c5fd; }
+        .hamburger { display: none; cursor: pointer; color: #dbeafe; padding: 0.5rem; }
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        @media (max-width: 640px) {
+            .hamburger { display: block; }
+            .menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--navbar-bg);
+                padding: 1rem;
+                flex-direction: column;
+            }
+            .menu.active { display: flex; }
+        }
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: #dbeafe;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .sparkle:hover { filter: drop-shadow(0 0 10px #60a5fa); }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+        }
+        .modal-content {
+            background: #fff;
+            margin: 15% auto;
+            padding: 1.5rem;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 8px;
+            text-align: center;
+            position: relative;
+        }
+        .welcome-message {
+            background: linear-gradient(90deg, #66ccff, #99ddff);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-family: 'Pacifico', cursive;
+            color: #003366;
+        }
+        .btn-blue {
+            background: var(--btn-blue);
+            color: #dbeafe;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            transition: all 0.3s;
+        }
+        .btn-blue:hover {
+            background: var(--btn-blue-hover);
+            transform: translateY(-2px);
+        }
+        .coral-btn {
+            background: var(--accent-coral);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            transition: all 0.3s;
+        }
+        .coral-btn:hover {
+            background: #ec4899;
+            transform: translateY(-2px);
+        }
+        select, button {
+            width: 100%;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            border: 1px solid #66ccff;
+            background: #f0faff;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        button:hover { background: #cce7ff; }
+        .promo {
+            background: linear-gradient(90deg, #66ccff, #99ddff);
+            color: #003366;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            padding: 0.75rem;
+            box-shadow: 0 0 8px rgba(102, 204, 255, 0.3);
+            font-weight: 500;
+        }
+        .promo.active { border: 2px solid var(--btn-blue); }
+        .promo button {
+            width: auto;
+            padding: 0.3rem 0.75rem;
+            background: #0055aa;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+        .promo button:hover { background: #003366; }
+        .countdown { font-size: 1rem; color: #cc0000; margin-top: 0.5rem; }
+        .horario {
+            background: #b3e0ff;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            box-shadow: 0 0 8px rgba(0, 85, 170, 0.3);
+        }
+        #mensaje { margin-top: 1rem; font-weight: 500; color: #006600; }
+        .sticker-wheel {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        .sticker-wheel img {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .sticker-wheel img.hidden { opacity: 0; }
+        .yogurt-preview-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            transition: all 0.3s ease;
+        }
+        .yogurt-preview-container img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        .yogurt-flavor { z-index: 1; }
+        .yogurt-packaging { z-index: 2; }
+        .yogurt-topping { z-index: 3; }
+        @media (max-width: 600px) {
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.2rem; }
+            .container { padding: 0 0.5rem; }
+            .yogurt-preview-container { width: 150px; height: 150px; }
+            .sticker-wheel { width: 150px; height: 150px; }
+            .sticker-wheel img { width: 80px; height: 80px; }
+        }
+        #inicio {
+            background: url('img/Miski.png') no-repeat center/cover;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+        #inicio::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        #inicio .container { position: relative; z-index: 1; }
+        .preview-image {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
+        .preview-image:hover { transform: scale(1.1); }
+        .flavor-btn.active, .packaging-btn.active {
+            border: 2px solid var(--btn-blue);
+            box-shadow: 0 0 5px var(--btn-blue);
+        }
+        #delivery-address {
+            border: 1px solid #d1d5db;
+            padding: 8px;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        #confirm-order {
+            background-color: #2563eb;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        #confirm-order:hover {
+            background-color: #1d4ed8;
+        }
+        #delivery-message {
+            font-size: 0.875rem;
+            color: #4b5563;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="container">
+        <h1 class="text-white text-2xl font-bold" style="font-family: 'Pacifico', cursive;">MiskyThamis</h1>
+        <div class="flex items-center">
+            <span id="user-greeting" class="text-white mr-4 hidden">Hola, <span id="user-name"></span></span>
+            <button class="btn-blue mr-4" id="register-btn" aria-label="Abrir registro">Registrarse</button>
+            <button class="hamburger" id="menu-toggle" aria-label="Toggle menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+            <div class="menu" id="menu">
+                <a href="#inicio" class="hover:underline">Inicio</a>
+                <a href="#suscripcion" class="hover:underline">Personaliza</a>
+                <a href="#entrega" class="hover:underline">Entrega</a>
+                <a href="#carrito" class="hover:underline">Carrito</a>
+                <a href="#pagos" class="hover:underline">Pagos</a>
+                <a href="#contenido" class="hover:underline">Contenido</a>
+                <a href="#soporte" class="hover:underline">Soporte</a>
+                <button class="theme-toggle" id="theme-toggle">🌙</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Modal de Registro -->
+<div id="register-modal" class="modal">
+    <div class="modal-content">
+        <div class="welcome-message hidden" id="welcome-message">
+            <h2 class="text-xl">¡Bienvenido, <span id="welcome-name"></span>!</h2>
+            <p>Tu aventura con MiskyThamis comienza ahora. 🧋</p>
+        </div>
+        <h2 class="text-xl font-bold text-blue-700 mb-4" id="register-title">Regístrate</h2>
+        <form id="register-form">
+            <input type="text" id="register-name" placeholder="Nombre" class="w-full p-2 mb-3 border rounded text-blue-800" aria-label="Nombre" required>
+            <input type="email" placeholder="Correo" class="w-full p-2 mb-3 border rounded text-blue-800" aria-label="Correo" required>
+            <input type="password" placeholder="Contraseña" class="w-full p-2 mb-3 border rounded text-blue-800" aria-label="Contraseña" required>
+            <button type="submit" class="coral-btn" aria-label="Registrarse">¡Regístrate!</button>
+        </form>
+        <p id="register-notification" class="mt-3 text-green-600 hidden"></p>
+        <button class="btn-blue mt-3" id="close-modal" aria-label="Cerrar">Cerrar</button>
+    </div>
+</div>
+
+<!-- Hero -->
+<section id="inicio" class="fade-in">
+    <div class="container px-4">
+        <h2 class="text-4xl font-bold text-white mb-4" style="font-family: 'Pacifico', cursive; text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">¡Bienvenido a MiskyThamis! 🧋</h2>
+        <p class="text-lg text-white mb-6">Disfruta de yogures artesanales con un toque mágico.</p>
+        <a href="#suscripcion" class="btn-blue sparkle" aria-label="Personaliza tu yogur artesanal">¡Personaliza Ahora!</a>
+    </div>
+</section>
+
+<!-- Personaliza -->
+<section id="suscripcion" class="py-8 bg-white">
+    <div class="container">
+        <h2 class="text-2xl font-bold text-center text-blue-700 mb-6">Personaliza Tu Yogur</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-blue-800 mb-3">Sabores</h3>
+                    <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+                        <button class="flavor-btn bg-white p-2 rounded-lg shadow hover:shadow-lg sparkle" data-flavor="fresa"><img src="img/fresa.png" alt="Fresa" class="preview-image"></button>
+                        <button class="flavor-btn bg-white p-2 rounded-lg shadow hover:shadow-lg sparkle" data-flavor="lucuma"><img src="img/lucuma.png" alt="Lucuma" class="preview-image"></button>
+                        <button class="flavor-btn bg-white p-2 rounded-lg shadow hover:shadow-lg sparkle" data-flavor="vainilla"><img src="img/vainilla.png" alt="Vainilla" class="preview-image"></button>
+                        <button class="flavor-btn bg-white p-2 rounded-lg shadow hover:shadow-lg sparkle" data-flavor="coco"><img src="img/coco.png" alt="Coco" class="preview-image"></button>
+                        <button class="flavor-btn bg-white p-2 rounded-lg shadow hover:shadow-lg sparkle" data-flavor="uva"><img src="img/uva.png" alt="Uva" class="preview-image"></button>
+                        <button class="flavor-btn bg-white p-2 rounded-lg shadow hover:shadow-lg sparkle" data-flavor="chocolate"><img src="img/chocolate.png" alt="Chocolate" class="preview-image"></button>
+                        <button class="flavor-btn bg-white p-2 rounded-lg shadow hover:shadow-lg sparkle" data-flavor="piña"><img src="img/piña.png" alt="Piña" class="preview-image"></button>
+                        <button class="flavor-btn bg-white p-2 rounded-lg shadow hover:shadow-lg sparkle" data-flavor="durazno"><img src="img/durazno.png" alt="Durazno" class="preview-image"></button>
+                        <button class="flavor-btn bg-white p-2 rounded-lg shadow hover:shadow-lg sparkle" data-flavor="manzana"><img src="img/manzana.png" alt="Manzana" class="preview-image"></button>
+                        <button class="flavor-btn bg-white p-2 rounded-lg shadow hover:shadow-lg sparkle" data-flavor="almendras"><img src="img/almendras.png" alt="Almendras" class="preview-image"></button>
+                        <button class="flavor-btn bg-white p-2 rounded-lg shadow hover:shadow-lg sparkle" data-flavor="frambuesas"><img src="img/frambuesas.png" alt="Frambuesas" class="preview-image"></button>
+                        <button class="flavor-btn bg-white p-2 rounded-lg shadow hover:shadow-lg sparkle" data-flavor="mango"><img src="img/mango.png" alt="Mango" class="preview-image"></button>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-blue-800 mb-3">Textura</h3>
+                    <div class="flex gap-4">
+                        <label><input type="radio" name="texture" value="cremosa" class="texture-radio" checked> Cremosa</label>
+                        <label><input type="radio" name="texture" value="ligera" class="texture-radio"> Ligera</label>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-blue-800 mb-3">Opciones Saludables</h3>
+                    <div class="flex flex-col gap-2">
+                        <label><input type="checkbox" name="healthy" value="probioticos" class="healthy-checkbox"> Probióticos</label>
+                        <label><input type="checkbox" name="healthy" value="sin-lactosa" class="healthy-checkbox"> Sin Lactosa</label>
+                        <label><input type="checkbox" name="healthy" value="bajo-azucar" class="healthy-checkbox"> Bajo en Azúcar</label>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-blue-800 mb-3">Envase</h3>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button class="packaging-btn bg-white p-2 rounded-lg shadow hover:shadow-lg sparkle" data-packaging="plastico"><img src="plastico/plastico.png" alt="Plástico" class="preview-image"></button>
+                        <button class="packaging-btn bg-white p-2 rounded-lg shadow hover:shadow-lg sparkle" data-packaging="vidrio"><img src="vidrio/vidrio.png" alt="Vidrio" class="preview-image"></button>
+                        <button class="packaging-btn bg-white p-2 rounded-lg shadow hover:shadow-lg sparkle" data-packaging="carton"><img src="carton/carton.png" alt="Cartón" class="preview-image"></button>
+                        <button class="packaging-btn bg-white p-2 rounded-lg shadow hover:shadow-lg sparkle" data-packaging="pouche"><img src="pouche/pouche.png" alt="Pouche Bioplástico" class="preview-image"></button>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-blue-800 mb-3">Toppings</h3>
+                    <div class="flex flex-col gap-2">
+                        <label><input type="checkbox" name="topping" value="granola" class="topping-checkbox" data-price="0.50"> Granola (+S/ 0.50)</label>
+                        <label><input type="checkbox" name="topping" value="fruta-fresca" class="topping-checkbox" data-price="1.00"> Fruta Fresca (+S/ 1.00)</label>
+                        <label><input type="checkbox" name="topping" value="miel" class="topping-checkbox" data-price="0.75"> Miel (+S/ 0.75)</label>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-blue-800 mb-3">Stickers</h3>
+                    <div class="sticker-wheel" id="sticker-wheel"></div>
+                    <button id="spin-wheel" class="btn-blue mt-3" aria-label="Girar ruleta">Girar Ruleta</button>
+                    <a id="download-sticker" href="#" download class="btn-blue mt-3 block text-center sparkle" aria-label="Descargar sticker">Descargar Sticker</a>
+                </div>
+            </div>
+            <div class="flex flex-col items-center">
+                <h3 class="text-lg font-semibold text-blue-800 mb-3">Tu Yogur</h3>
+                <div class="yogurt-preview-container sparkle">
+                    <img id="yogurt-flavor" src="img/lucuma.png" alt="Sabor" class="yogurt-flavor fade-in">
+                    <img id="yogurt-packaging" src="vidrio/vidrio.png" alt="Envase" class="yogurt-packaging fade-in">
+                    <img id="yogurt-topping" src="" alt="Topping" class="yogurt-topping hidden fade-in">
+                </div>
+                <p id="yogurt-details" class="text-base text-blue-800 mt-3 text-center">Lucuma, Cremosa, Vidrio (Probióticos)</p>
+                <p id="yogurt-price" class="text-base text-blue-800 mt-2 text-center">Precio: S/ <span>7.40</span></p>
+                <p id="promo-discount" class="text-base text-green-600 mt-2 text-center hidden">Descuento: S/ <span>0.00</span></p>
+                <button id="add-to-cart" class="btn-blue mt-4 flex items-center" aria-label="Agregar al carrito">
+                    <img src="img/carrito.png" alt="Carrito" class="w-6 h-6 mr-2">
+                    Agregar al Carrito
+                </button>
+                <a id="download-label" href="#" download class="btn-blue mt-3 block text-center sparkle" aria-label="Descargar etiqueta">Descargar Etiqueta</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Carrito -->
+<section id="carrito" class="py-8 bg-[#eff6ff]">
+    <div class="container">
+        <h2 class="text-2xl font-bold text-blue-800 mb-4">Carrito</h2>
+        <ul id="cart" class="mb-4"></ul>
+        <p class="text-lg font-bold text-blue-800">Total: S/ <span id="total">0.00</span></p>
+        <p id="promo-applied" class="text-base text-green-600 hidden">Promoción aplicada: <span id="promo-name"></span> (Ahorro: S/ <span id="promo-savings">0.00</span>)</p>
+        <div class="mt-4">
+            <h3 class="text-xl font-bold text-blue-800 mb-2">Métodos de Pago</h3>
+            <label><input type="radio" name="payment" value="yape" checked> Yape</label><br>
+            <label><input type="radio" name="payment" value="plin"> Plin</label><br>
+            <label><input type="radio" name="payment" value="tarjeta"> Tarjeta</label><br>
+            <label><input type="radio" name="payment" value="efectivo"> Efectivo</label>
+            <div id="payment-form" class="payment-form hidden">
+                <label class="block text-blue-800 font-semibold mb-2">Número de Tarjeta</label>
+                <input type="text" class="w-full p-2 border rounded mb-3 text-blue-800" placeholder="1234 5678 9012 3456" aria-label="Número de tarjeta" maxlength="19">
+                <div class="flex gap-4">
+                    <div>
+                        <label class="block text-blue-800 font-semibold mb-2">Fecha de Vencimiento</label>
+                        <input type="text" class="w-full p-2 border rounded mb-3 text-blue-800" placeholder="MM/YY" aria-label="Fecha de vencimiento" maxlength="5">
+                    </div>
+                    <div>
+                        <label class="block text-blue-800 font-semibold mb-2">CVV</label>
+                        <input type="text" class="w-full p-2 border rounded mb-3 text-blue-800" placeholder="123" aria-label="CVV" maxlength="4">
+                    </div>
+                </div>
+                <button class="btn-blue w-full" aria-label="Pagar con tarjeta">Pagar</button>
+            </div>
+            <p id="payment-details" class="mt-2 text-blue-800">Escanea QR o ingresa datos...</p>
+        </div>
+        <!-- Sección de entrega añadida -->
+        <div class="mt-4">
+            <h3 class="text-lg font-semibold text-blue-800 mb-3">Confirmar Pedido</h3>
+            <input id="delivery-address" type="text" placeholder="Ingresa tu dirección (ej. Av. Balta 123, Chiclayo)" class="border p-2 rounded-lg w-full mb-2">
+            <button id="confirm-order" class="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700">Confirmar Pedido</button>
+            <p id="delivery-message" class="text-sm text-gray-600 mt-2"></p>
+        </div>
+        <div id="voucher" class="bg-white rounded shadow p-4 text-center mt-6 hidden">
+            <h2 class="text-2xl font-bold mb-4 text-blue-800">Voucher</h2>
+            <p class="text-blue-800">¡Gracias por tu compra! 🧋✨</p>
+            <div id="voucher-items" class="mt-2"></div>
+            <p id="voucher-details" class="text-blue-800 mt-2"></p>
+            <button class="btn-blue" onclick="window.print()">Imprimir Voucher</button>
+        </div>
+    </div>
+</section>
+
+<!-- Pagos -->
+<section id="pagos" class="py-8 bg-[#eff6ff]">
+    <div class="container">
+        <h2 class="text-2xl font-bold text-center text-blue-700 mb-6">Métodos de Pago</h2>
+        <p class="text-base text-blue-800 text-center mb-4">Paga tu pedido de forma rápida y segura.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-xl mx-auto">
+            <div class="bg-white p-4 rounded-lg shadow hover:scale-105 transition-transform duration-300">
+                <img src="img/yape.jpeg" alt="Código QR de Yape" class="w-24 h-24 mx-auto mb-3" loading="lazy">
+                <h3 class="text-lg font-semibold text-blue-800 mb-2">Yape</h3>
+                <p class="text-blue-700">Escanea el QR o usa +51 971 127 907</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow hover:scale-105 transition-transform duration-300">
+                <img src="img/plin-gr.jpeg" alt="Código QR de Plin" class="w-24 h-24 mx-auto mb-3" loading="lazy">
+                <h3 class="text-lg font-semibold text-blue-800 mb-2">Plin</h3>
+                <p class="text-blue-700">Escanea el QR o usa +51 971 127 907</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Promociones -->
+<section class="py-8">
+    <div class="container">
+        <h2 class="text-2xl font-bold text-center text-blue-700 mb-6">🎉 Promociones y Ofertas</h2>
+        <div class="promo" data-promo="lunes-energia">⭐ Lunes de Energía: Compra 2 yogures y llévate 1 topping gratis.<button onclick="seleccionarOferta('lunes-energia')">Seleccionar</button></div>
+        <div class="promo" data-promo="miercoles-saludable">⭐ Miércoles Saludables: 10% de descuento en yogures sin lactosa o bajos en azúcar.<button onclick="seleccionarOferta('miercoles-saludable')">Seleccionar</button></div>
+        <div class="promo" data-promo="viernes-sabor">⭐ Viernes de Sabor: Combina cualquier sabor + topping con S/ 1 de descuento.<button onclick="seleccionarOferta('viernes-sabor')">Seleccionar</button></div>
+        <div class="promo" data-promo="promo-mes">⭐ Promo del Mes: Compra 4 yogures y recibe un envase de vidrio gratis.<button onclick="seleccionarOferta('promo-mes')">Seleccionar</button></div>
+        <div class="countdown">Oferta termina en: <span id="timer"></span></div>
+        <div id="mensaje"></div>
+        <div class="horario">
+            <h2 class="text-lg font-bold">🕒 Horarios de Venta</h2>
+            <p>🗓️ <strong>Lunes a Sábado:</strong> 8:00 am - 7:00 pm</p>
+            <p>🗓️ <strong>Domingo:</strong> 8:00 am - 1:00 pm</p>
+            <p>📍 Pedidos y Recojo: Chiclayo Centro</p>
+            <p>📲 Pedidos por WhatsApp y redes sociales</p>
+        </div>
+    </div>
+</section>
+
+<!-- Contenido -->
+<section id="contenido" class="py-8 bg-white">
+    <div class="container">
+        <h2 class="text-2xl font-bold text-center text-blue-700 mb-6">Tips y Recetas</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-[#eff6ff] p-4 rounded-lg shadow hover:scale-105 transition-transform duration-300">
+                <h3 class="text-lg font-semibold text-blue-800 mb-2">Beneficios de los Probióticos</h3>
+                <p class="text-blue-700">Mejoran la digestión y fortalecen tu sistema inmunológico.</p>
+            </div>
+            <div class="bg-[#eff6ff] p-4 rounded-lg shadow hover:scale-105 transition-transform duration-300">
+                <h3 class="text-lg font-semibold text-blue-800 mb-2">Receta: Batido de Zapallo</h3>
+                <p class="text-blue-700 mb-3">Mezcla yogur con plátano y miel. ¡Delicioso!</p>
+                <div class="flex flex-col sm:flex-row sm:justify-center gap-2">
+                    <a href="batido-zapallo.html" class="btn-blue text-center" aria-label="Ver receta completa de batido">Ver Receta Completa</a>
+                    <a href="recetas/BatidoZapallo.pdf" download class="text-blue-500 hover:underline" aria-label="Descargar receta de batido">Descargar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gradient-to-r from-blue-300 to-blue-500 text-white py-6">
+    <div class="container text-center">
+        <p class="text-base">© 2025 MiskyThamis. Hecho con amor en Chiclayo.</p>
+        <div class="flex justify-center gap-4 mt-3">
+            <a href="#" class="text-white hover:text-blue-200 transform hover:scale-110 transition" aria-label="Facebook">
+                <svg class="w-6 h-6 fill-current" viewBox="0 0 320 512"><path d="M279.14 288l14.22-92.66h-88.91V127.68c0-25.35 12.42-50.06 52.24-50.06H293V6.26S259.5 0 225.36 0C141.09 0 89.33 54.42 89.33 153.12v68.22H0v92.66h89.33V512h107.7V288z"/></svg>
+            </a>
+            <a href="#" class="text-white hover:text-blue-200 transform hover:scale-110 transition" aria-label="WhatsApp">
+                <svg class="w-6 h-6 fill-current" viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.2 283.3 32 224.4 32 125.6 32 44 113.6 44 212.4c0 36.8 9.6 72.6 27.9 104.1L32 480l163.5-39.1c30.7 16.7 65.2 25.7 100.2 25.7h.3c98.8 0 180.4-81.6 180.4-180.4 0-58.8-23.2-114.5-65.1-156.4zM224.4 433.4c-29.4 0-58.4-7.9-83.6-23l-5.9-3.5-97 23.2 20.7-95.3-3.8-6c-17.3-27.1-26.4-58.4-26.4-90.4 0-94.2 76.7-170.9 170.9-170.9 45.6 0 88.4 17.8 120.7 50.1 32.3 32.3 50.1 75.1 50.1 120.7-.1 94.2-76.8 170.9-170.9 170.9zm101-126.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.5-14.3 18-17.5 21.7-3.2 3.7-6.4 4.1-11.8 1.4-32.1-16-53.1-28.5-74.2-64.4-5.6-9.6 5.6-8.9 16-29.6 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.2-17.1-41.4-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.5-19.4 19-19.4 46.2s19.9 53.7 22.6 57.4c2.8 3.7 39.2 59.7 95.1 83.7 13.3 5.7 23.7 9.1 31.8 11.6 13.4 4.3 25.6 3.7 35.3 2.3 10.8-1.6 32.8-13.4 37.5-26.4 4.6-12.8 4.6-23.8 3.2-26.4-1.3-2.7-5-4.2-10.5-6.9z"/></svg>
+            </a>
+            <a href="#" class="text-white hover:text-blue-200 transform hover:scale-110 transition" aria-label="Instagram">
+                <svg class="w-6 h-6 fill-current" viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9S160.5 370.8 224.1 370.8 339 319.5 339 255.9 287.7 141 224.1 141zm0 186.6c-39.6 0-71.7-32.1-71.7-71.7s32.1-71.7 71.7-71.7 71.7 32.1 71.7 71.7-32.1 71.7-71.7 71.7zm146.4-194.3c0 14.9-12.1 27-27 27h-27c-14.9 0-27-12.1-27-27v-27c0-14.9 12.1-27 27-27h27c14.9 0 27 12.1 27 27v27zm76.1 27.2c-1.7-35.7-9.9-67.3-36.2-93.6S382.4 39.7 346.7 38c-35.7-1.7-142.8-1.7-178.5 0-35.7 1.7-67.3 9.9-93.6 36.2S39.7 129.6 38 165.3c-1.7 35.7-1.7 142.8 0 178.5 1.7 35.7 9.9 67.3 36.2 93.6s57.9 34.5 93.6 36.2c35.7 1.7 142.8 1.7 178.5 0 35.7-1.7 67.3-9.9 93.6-36.2s34.5-57.9 36.2-93.6c1.7-35.7 1.7-142.8 0-178.5zm-48.5 218.3c-7.8 19.7-23 35-42.7 42.7-29.6 11.8-99.9 9.1-132.7 9.1s-103.1 2.6-132.7-9.1c-19.7-7.8-35-23-42.7-42.7-11.8-29.6-9.1-99.9-9.1-132.7s-2.6-103.1 9.1-132.7c7.8-19.7 23-35 42.7-42.7 29.6-11.8 99.9-9.1 132.7-9.1s103.1-2.6 132.7 9.1c19.7 7.8 35 23 42.7 42.7 11.8 29.6 9.1 99.9 9.1 132.7s2.7 103.1-9.1 132.7z"/></svg>
+            </a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Navbar toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const menu = document.getElementById('menu');
+        menuToggle?.addEventListener('click', () => menu.classList.toggle('active'));
+
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle?.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+
+        // Register modal
+        const registerBtn = document.getElementById('register-btn');
+        const registerModal = document.getElementById('register-modal');
+        const closeModal = document.getElementById('close-modal');
+        const registerForm = document.getElementById('register-form');
+        const registerNotification = document.getElementById('register-notification');
+        const welcomeMessage = document.getElementById('welcome-message');
+        const welcomeName = document.getElementById('welcome-name');
+        const registerTitle = document.getElementById('register-title');
+        const userGreeting = document.getElementById('user-greeting');
+        const userName = document.getElementById('user-name');
+        let currentUser = localStorage.getItem('userName') || '';
+
+        if (currentUser) {
+            userGreeting.classList.remove('hidden');
+            userName.textContent = currentUser;
+            registerBtn.textContent = 'Mi Cuenta';
+        }
+
+        registerBtn?.addEventListener('click', () => {
+            registerModal.style.display = 'block';
+            if (currentUser) {
+                registerForm.classList.add('hidden');
+                registerTitle.classList.add('hidden');
+                welcomeMessage.classList.remove('hidden');
+                welcomeName.textContent = currentUser;
+            } else {
+                registerForm.classList.remove('hidden');
+                registerTitle.classList.remove('hidden');
+                welcomeMessage.classList.add('hidden');
+            }
+        });
+
+        closeModal?.addEventListener('click', () => registerModal.style.display = 'none');
+        registerForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (registerForm.checkValidity()) {
+                currentUser = document.getElementById('register-name').value;
+                localStorage.setItem('userName', currentUser);
+                registerNotification.textContent = `¡Bienvenido, ${currentUser}! Registro exitoso. Revisa tu correo.`;
+                registerNotification.classList.remove('hidden');
+                userGreeting.classList.remove('hidden');
+                userName.textContent = currentUser;
+                registerBtn.textContent = 'Mi Cuenta';
+                setTimeout(() => {
+                    registerNotification.classList.add('hidden');
+                    registerModal.style.display = 'none';
+                }, 3000);
+            }
+        });
+
+        // Yogurt customization
+        const flavorButtons = document.querySelectorAll('.flavor-btn');
+        const textureRadios = document.querySelectorAll('.texture-radio');
+        const healthyCheckboxes = document.querySelectorAll('.healthy-checkbox');
+        const packagingButtons = document.querySelectorAll('.packaging-btn');
+        const toppingCheckboxes = document.querySelectorAll('.topping-checkbox');
+        const promoButtons = document.querySelectorAll('.promo');
+        const yogurtPreview = document.getElementById('yogurt-flavor');
+        const yogurtTopping = document.getElementById('yogurt-topping');
+        const previewDetails = document.getElementById('yogurt-details');
+        const previewPrice = document.getElementById('yogurt-price')?.querySelector('span');
+        const promoDiscount = document.getElementById('promo-discount');
+        const promoDiscountAmount = promoDiscount?.querySelector('span');
+        const addToCartButton = document.getElementById('add-to-cart');
+        const downloadLabelButton = document.getElementById('download-label');
+        const stickerWheel = document.getElementById('sticker-wheel');
+        const spinWheelButton = document.getElementById('spin-wheel');
+        const downloadStickerButton = document.getElementById('download-sticker');
+
+        let selectedFlavor = 'lucuma';
+        let selectedTexture = 'cremosa';
+        let selectedHealthy = ['probioticos'];
+        let selectedPackaging = 'vidrio';
+        let selectedToppings = [];
+        let selectedStickerIndex = 0;
+        let selectedPromo = null;
+
+        const basePrices = {
+            fresa: 5.00, lucuma: 6.50, vainilla: 5.50, coco: 6.00,
+            uva: 5.50, chocolate: 6.50, piña: 5.50, durazno: 6.00,
+            manzana: 5.50, almendras: 6.50, frambuesas: 6.50, mango: 6.50
+        };
+        const packagingPrices = { plastico: 0, vidrio: 1.00, carton: 0.50, pouche: 0.80 };
+        const healthyPrices = { probioticos: 0.40, 'sin-lactosa': 0.50, 'bajo-azucar': 0.30 };
+        const toppingPrices = { granola: 0.50, 'fruta-fresca': 1.00, miel: 0.75 };
+
+        function updatePreview() {
+            if (!yogurtPreview || !previewDetails || !previewPrice) return;
+            yogurtPreview.src = `${selectedPackaging}/${selectedFlavor}.png`;
+            yogurtPreview.alt = `${selectedFlavor} en ${selectedPackaging}`;
+            yogurtPreview.classList.remove('hidden');
+
+            yogurtTopping.src = selectedToppings.length ? `img/topping-${selectedToppings[0]}.png` : '';
+            yogurtTopping.classList.toggle('hidden', !selectedToppings.length);
+
+            const healthyText = selectedHealthy.length ? ` (${selectedHealthy.map(h => h.replace('sin-lactosa', 'Sin Lactosa').replace('bajo-azucar', 'Bajo en Azúcar').replace('probioticos', 'Probióticos')).join(', ')})` : '';
+            const toppingText = selectedToppings.length ? ` + ${selectedToppings.map(t => t.replace('granola', 'Granola').replace('fruta-fresca', 'Fruta Fresca').replace('miel', 'Miel')).join(', ')}` : '';
+            previewDetails.textContent = `${selectedFlavor.charAt(0).toUpperCase() + selectedFlavor.slice(1)}, ${selectedTexture.charAt(0).toUpperCase() + selectedTexture.slice(1)}, ${selectedPackaging.charAt(0).toUpperCase() + selectedPackaging.slice(1)}${healthyText}${toppingText}`;
+
+            let basePrice = basePrices[selectedFlavor] || 5.00;
+            let extraPackaging = packagingPrices[selectedPackaging] || 0;
+            let extraHealthy = selectedHealthy.reduce((sum, h) => sum + (healthyPrices[h] || 0), 0);
+            let extraToppings = selectedToppings.reduce((sum, t) => sum + (toppingPrices[t] || 0), 0);
+            let discount = 0;
+
+            const today = new Date(); // Miércoles, 16 de julio de 2025, 09:31 AM -05
+            if (selectedPromo === 'lunes-energia' && selectedToppings.length > 0 && carrito.length >= 2 && today.getDay() === 1) {
+                discount = Math.min(...selectedToppings.map(t => toppingPrices[t] || 0));
+                extraToppings -= discount;
+            } else if (selectedPromo === 'miercoles-saludable' && (selectedHealthy.includes('sin-lactosa') || selectedHealthy.includes('bajo-azucar')) && today.getDay() === 3) {
+                discount = basePrice * 0.1;
+                basePrice *= 0.9;
+            } else if (selectedPromo === 'viernes-sabor' && selectedToppings.length > 0 && today.getDay() === 5) {
+                discount = 1;
+                extraToppings -= 1;
+            } else if (selectedPromo === 'promo-mes' && carrito.filter(item => item.item.includes('Vidrio')).length >= 3 && selectedPackaging === 'vidrio') {
+                discount = extraPackaging;
+                extraPackaging = 0;
+            }
+
+            const totalPrice = basePrice + extraPackaging + extraHealthy + extraToppings;
+            previewPrice.textContent = totalPrice.toFixed(2);
+            promoDiscount.classList.toggle('hidden', discount === 0);
+            promoDiscountAmount.textContent = discount.toFixed(2);
+
+            downloadLabelButton.href = `img/label-${selectedFlavor}-front.png`;
+            downloadLabelButton.download = `MiskyThamis-${selectedFlavor}-label.png`;
+
+            updateStickerWheel();
+        }
+
+        function updateStickerWheel() {
+            if (!stickerWheel) return;
+            const stickers = Array.from({ length: 10 }, (_, i) => `sticker/${i + 1}.png`);
+            stickerWheel.innerHTML = stickers.map((sticker, index) =>
+                `<img src="${sticker}" alt="Sticker ${index + 1}" class="${index !== selectedStickerIndex ? 'hidden' : ''}" data-sticker="${sticker}">`
+            ).join('');
+            downloadStickerButton.href = stickers[selectedStickerIndex];
+            downloadStickerButton.download = `MiskyThamis-sticker-${selectedStickerIndex + 1}.png`;
+        }
+
+        flavorButtons.forEach(btn => btn.addEventListener('click', () => {
+            flavorButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedFlavor = btn.dataset.flavor;
+            updatePreview();
+            document.getElementById('mensaje').textContent = `✅ Sabor seleccionado: ${selectedFlavor.charAt(0).toUpperCase() + selectedFlavor.slice(1)}`;
+            setTimeout(() => document.getElementById('mensaje').textContent = '', 3000);
+        }));
+
+        textureRadios.forEach(radio => radio.addEventListener('change', () => {
+            selectedTexture = radio.value;
+            updatePreview();
+            document.getElementById('mensaje').textContent = `✅ Textura seleccionada: ${selectedTexture.charAt(0).toUpperCase() + selectedTexture.slice(1)}`;
+            setTimeout(() => document.getElementById('mensaje').textContent = '', 3000);
+        }));
+
+        healthyCheckboxes.forEach(cb => cb.addEventListener('change', () => {
+            selectedHealthy = Array.from(healthyCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
+            updatePreview();
+            document.getElementById('mensaje').textContent = `✅ Opciones saludables: ${selectedHealthy.length ? selectedHealthy.join(', ') : 'Ninguna'}`;
+            setTimeout(() => document.getElementById('mensaje').textContent = '', 3000);
+        }));
+
+        packagingButtons.forEach(btn => btn.addEventListener('click', () => {
+            packagingButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedPackaging = btn.dataset.packaging;
+            updatePreview();
+            document.getElementById('mensaje').textContent = `✅ Envase seleccionado: ${selectedPackaging.charAt(0).toUpperCase() + selectedPackaging.slice(1)}`;
+            setTimeout(() => document.getElementById('mensaje').textContent = '', 3000);
+        }));
+
+        toppingCheckboxes.forEach(cb => cb.addEventListener('change', () => {
+            selectedToppings = Array.from(toppingCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
+            updatePreview();
+            document.getElementById('mensaje').textContent = `✅ Toppings seleccionados: ${selectedToppings.length ? selectedToppings.join(', ') : 'Ninguno'}`;
+            setTimeout(() => document.getElementById('mensaje').textContent = '', 3000);
+        }));
+
+        promoButtons.forEach(btn => btn.addEventListener('click', () => {
+            const promo = btn.dataset.promo;
+            seleccionarOferta(promo);
+        }));
+
+        spinWheelButton?.addEventListener('click', () => {
+            selectedStickerIndex = (selectedStickerIndex + 1) % 10;
+            updateStickerWheel();
+            document.getElementById('mensaje').textContent = `✅ Nuevo sticker seleccionado: ${selectedStickerIndex + 1}`;
+            setTimeout(() => document.getElementById('mensaje').textContent = '', 3000);
+        });
+
+        stickerWheel?.addEventListener('click', (e) => {
+            if (e.target.dataset.sticker) {
+                const stickerIndex = Array.from(stickerWheel.children).indexOf(e.target);
+                selectedStickerIndex = stickerIndex;
+                downloadStickerButton.href = e.target.dataset.sticker;
+                downloadStickerButton.download = `MiskyThamis-sticker-${selectedStickerIndex + 1}.png`;
+                document.getElementById('mensaje').textContent = `✅ Sticker ${selectedStickerIndex + 1} listo para descargar`;
+                setTimeout(() => document.getElementById('mensaje').textContent = '', 3000);
+                updateStickerWheel();
+            }
+        });
+
+        addToCartButton?.addEventListener('click', () => {
+            const healthyText = selectedHealthy.length ? ` (${selectedHealthy.map(h => h.replace('sin-lactosa', 'Sin Lactosa').replace('bajo-azucar', 'Bajo en Azúcar').replace('probioticos', 'Probióticos')).join(', ')})` : '';
+            const toppingText = selectedToppings.length ? ` + ${selectedToppings.map(t => t.replace('granola', 'Granola').replace('fruta-fresca', 'Fruta Fresca').replace('miel', 'Miel')).join(', ')}` : '';
+            const item = `${selectedFlavor.charAt(0).toUpperCase() + selectedFlavor.slice(1)}, ${selectedTexture.charAt(0).toUpperCase() + selectedTexture.slice(1)}, ${selectedPackaging.charAt(0).toUpperCase() + selectedPackaging.slice(1)}${healthyText}${toppingText}`;
+            let basePrice = basePrices[selectedFlavor] || 5.00;
+            let extraPackaging = packagingPrices[selectedPackaging] || 0;
+            let extraHealthy = selectedHealthy.reduce((sum, h) => sum + (healthyPrices[h] || 0), 0);
+            let extraToppings = selectedToppings.reduce((sum, t) => sum + (toppingPrices[t] || 0), 0);
+            let discount = 0;
+
+            const today = new Date();
+            if (selectedPromo === 'lunes-energia' && selectedToppings.length > 0 && carrito.length >= 2 && today.getDay() === 1) {
+                discount = Math.min(...selectedToppings.map(t => toppingPrices[t] || 0));
+                extraToppings -= discount;
+            } else if (selectedPromo === 'miercoles-saludable' && (selectedHealthy.includes('sin-lactosa') || selectedHealthy.includes('bajo-azucar')) && today.getDay() === 3) {
+                discount = basePrice * 0.1;
+                basePrice *= 0.9;
+            } else if (selectedPromo === 'viernes-sabor' && selectedToppings.length > 0 && today.getDay() === 5) {
+                discount = 1;
+                extraToppings -= 1;
+            } else if (selectedPromo === 'promo-mes' && carrito.filter(item => item.item.includes('Vidrio')).length >= 3 && selectedPackaging === 'vidrio') {
+                discount = extraPackaging;
+                extraPackaging = 0;
+            }
+
+            const price = basePrice + extraPackaging + extraHealthy + extraToppings;
+            addToCart(item, price, discount);
+            document.getElementById('mensaje').textContent = `✅ Producto añadido al carrito: ${item}`;
+            setTimeout(() => document.getElementById('mensaje').textContent = '', 3000);
+        });
+
+        // Cart
+        const cart = document.getElementById('cart');
+        const total = document.getElementById('total');
+        const voucher = document.getElementById('voucher');
+        const voucherItems = document.getElementById('voucher-items');
+        const voucherDetails = document.getElementById('voucher-details');
+        const promoApplied = document.getElementById('promo-applied');
+        const promoName = document.getElementById('promo-name');
+        const promoSavings = document.getElementById('promo-savings');
+        let carrito = [];
+        let totalAmount = 0;
+        let totalSavings = 0;
+
+        function addToCart(item, price, discount) {
+            carrito.push({ item, price, discount });
+            totalAmount += price;
+            totalSavings += discount;
+            cart.innerHTML += `<li>${item} - S/ ${price.toFixed(2)}${discount > 0 ? ` (Descuento: S/ ${discount.toFixed(2)})` : ''}</li>`;
+            total.textContent = totalAmount.toFixed(2);
+            voucher.classList.remove('hidden');
+            voucherItems.innerHTML = carrito.map(item => `<p>${item.item} - S/ ${item.price.toFixed(2)}${item.discount > 0 ? ` (Descuento: S/ ${item.discount.toFixed(2)})` : ''}</p>`).join('');
+            voucherDetails.textContent = `Tu carrito está cargado. Total pagado: S/ ${totalAmount.toFixed(2)}. Ahorro total: S/ ${totalSavings.toFixed(2)}. Realizado el: ${new Date().toLocaleString('es-PE', { timeZone: 'America/Lima' })}`;
+            if (selectedPromo && totalSavings > 0) {
+                promoApplied.classList.remove('hidden');
+                promoName.textContent = document.querySelector(`.promo[data-promo="${selectedPromo}"]`)?.childNodes[0].textContent.trim() || '';
+                promoSavings.textContent = totalSavings.toFixed(2);
+            } else {
+                promoApplied.classList.add('hidden');
+                promoName.textContent = '';
+                promoSavings.textContent = '0.00';
+            }
+        }
+
+        // Payment form
+        const paymentRadios = document.querySelectorAll('input[name="payment"]');
+        const paymentForm = document.getElementById('payment-form');
+        paymentRadios.forEach(radio => radio.addEventListener('change', () => {
+            paymentForm.classList.toggle('hidden', radio.value !== 'tarjeta');
+            document.getElementById('payment-details').style.display = radio.value === 'tarjeta' ? 'none' : 'block';
+        }));
+
+        // Promotions
+        function seleccionarOferta(promo) {
+            const today = new Date();
+            const validPromos = {
+                'lunes-energia': 1,
+                'miercoles-saludable': 3,
+                'viernes-sabor': 5,
+                'promo-mes': -1
+            };
+            if (validPromos[promo] !== -1 && validPromos[promo] !== today.getDay()) {
+                document.getElementById('mensaje').textContent = `❌ Esta promoción solo está disponible los ${promo.includes('lunes') ? 'lunes' : promo.includes('miercoles') ? 'miércoles' : 'viernes'}.`;
+                setTimeout(() => document.getElementById('mensaje').textContent = '', 3000);
+                return;
+            }
+
+            if (promo === 'promo-mes' && carrito.filter(item => item.item.includes('Vidrio')).length < 4) {
+                document.getElementById('mensaje').textContent = `❌ Esta promoción requiere 4 o más yogures con envase de vidrio.`;
+                setTimeout(() => document.getElementById('mensaje').textContent = '', 3000);
+                return;
+            }
+
+            selectedPromo = promo;
+            document.querySelectorAll('.promo').forEach(p => p.classList.remove('active'));
+            document.querySelector(`.promo[data-promo="${promo}"]`)?.classList.add('active');
+            document.getElementById('mensaje').textContent = `✅ Oferta seleccionada: ${document.querySelector(`.promo[data-promo="${promo}"]`)?.childNodes[0].textContent.trim() || ''}`;
+            setTimeout(() => document.getElementById('mensaje').textContent = '', 3000);
+
+            totalAmount = 0;
+            totalSavings = 0;
+            cart.innerHTML = '';
+            carrito.forEach(item => {
+                let [flavor, texture, packaging] = item.item.split(',').map(s => s.trim().toLowerCase().split('(')[0]);
+                let basePrice = basePrices[flavor] || 5.00;
+                let extraPackaging = packagingPrices[packaging] || 0;
+                let extraHealthy = item.item.includes('Probióticos') * 0.40 + item.item.includes('Sin Lactosa') * 0.50 + item.item.includes('Bajo en Azúcar') * 0.30;
+                let extraToppings = item.item.includes('Granola') * 0.50 + item.item.includes('Fruta Fresca') * 1.00 + item.item.includes('Miel') * 0.75;
+                let discount = 0;
+
+                if (selectedPromo === 'lunes-energia' && item.item.includes('+') && carrito.length >= 2 && today.getDay() === 1) {
+                    discount = Math.min(...[0.50, 1.00, 0.75].filter(t => item.item.includes('Granola') ? 0.50 : item.item.includes('Fruta Fresca') ? 1.00 : item.item.includes('Miel') ? 0.75 : 0));
+                    extraToppings -= discount;
+                } else if (selectedPromo === 'miercoles-saludable' && (item.item.includes('Sin Lactosa') || item.item.includes('Bajo en Azúcar')) && today.getDay() === 3) {
+                    discount = basePrice * 0.1;
+                    basePrice *= 0.9;
+                } else if (selectedPromo === 'viernes-sabor' && item.item.includes('+') && today.getDay() === 5) {
+                    discount = 1;
+                    extraToppings -= 1;
+                } else if (selectedPromo === 'promo-mes' && carrito.filter(i => i.item.includes('Vidrio')).length >= 4 && item.item.includes('Vidrio')) {
+                    discount = extraPackaging;
+                    extraPackaging = 0;
+                }
+
+                item.price = basePrice + extraPackaging + extraHealthy + extraToppings;
+                item.discount = discount;
+                totalAmount += item.price;
+                totalSavings += discount;
+                cart.innerHTML += `<li>${item.item} - S/ ${item.price.toFixed(2)}${discount > 0 ? ` (Descuento: S/ ${discount.toFixed(2)})` : ''}</li>`;
+            });
+            total.textContent = totalAmount.toFixed(2);
+            voucherItems.innerHTML = carrito.map(item => `<p>${item.item} - S/ ${item.price.toFixed(2)}${item.discount > 0 ? ` (Descuento: S/ ${item.discount.toFixed(2)})` : ''}</p>`).join('');
+            voucherDetails.textContent = `Tu carrito está cargado. Total pagado: S/ ${totalAmount.toFixed(2)}. Ahorro total: S/ ${totalSavings.toFixed(2)}. Realizado el: ${new Date().toLocaleString('es-PE', { timeZone: 'America/Lima' })}`;
+            if (selectedPromo && totalSavings > 0) {
+                promoApplied.classList.remove('hidden');
+                promoName.textContent = document.querySelector(`.promo[data-promo="${selectedPromo}"]`)?.childNodes[0].textContent.trim() || '';
+                promoSavings.textContent = totalSavings.toFixed(2);
+            } else {
+                promoApplied.classList.add('hidden');
+                promoName.textContent = '';
+                promoSavings.textContent = '0.00';
+            }
+            updatePreview();
+        }
+
+        // Countdown timer
+        const timer = document.getElementById('timer');
+        const countDownDate = new Date().getTime() + 12 * 60 * 60 * 1000;
+        const x = setInterval(() => {
+            const distance = countDownDate - new Date().getTime();
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            timer.textContent = `${hours}h ${minutes}m ${seconds}s`;
+            if (distance < 0) {
+                clearInterval(x);
+                timer.textContent = 'Oferta finalizada';
+                selectedPromo = null;
+                document.querySelectorAll('.promo').forEach(p => p.classList.remove('active'));
+                updatePreview();
+                totalAmount = carrito.reduce((sum, item) => sum + item.price, 0);
+                totalSavings = 0;
+                cart.innerHTML = carrito.map(item => `<li>${item.item} - S/ ${item.price.toFixed(2)}</li>`).join('');
+                total.textContent = totalAmount.toFixed(2);
+                promoApplied.classList.add('hidden');
+                promoName.textContent = '';
+                promoSavings.textContent = '0.00';
+            }
+        }, 1000);
+
+        // Registro de ventas y pedidos
+        const confirmOrderButton = document.getElementById('confirm-order');
+        const deliveryAddressInput = document.getElementById('delivery-address');
+        const deliveryMessage = document.getElementById('delivery-message');
+
+        function estimateDistance(address) {
+            const keywords = ['chiclayo centro', 'av. balta', 'centro'];
+            const distance = keywords.some(keyword => address.toLowerCase().includes(keyword)) ? 4 : 6;
+            console.log(`Distancia estimada para "${address}": ${distance} km`);
+            return distance;
+        }
+
+        function registerSale() {
+            const sales = JSON.parse(localStorage.getItem('sales') || '[]');
+            const today = new Date().toLocaleDateString('es-PE', { timeZone: 'America/Lima' });
+            const sale = {
+                date: today,
+                items: carrito.map(item => ({
+                    description: item.item,
+                    price: item.price,
+                    discount: item.discount
+                })),
+                total: totalAmount,
+                savings: totalSavings
+            };
+            const existingSale = sales.find(s => s.date === today);
+            if (existingSale) {
+                existingSale.items.push(...sale.items);
+                existingSale.total += sale.total;
+                existingSale.savings += sale.savings;
+            } else {
+                sales.push(sale);
+            }
+            localStorage.setItem('sales', JSON.stringify(sales));
+            console.log('Venta registrada:', sale);
+        }
+
+        function registerOrder(address, isFreeDelivery) {
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const order = {
+                date: new Date().toLocaleString('es-PE', { timeZone: 'America/Lima' }),
+                items: carrito.map(item => item.item),
+                total: totalAmount,
+                address: address,
+                deliveryCost: isFreeDelivery ? 0 : 5.00,
+                status: 'Pendiente'
+            };
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            console.log('Pedido registrado:', order);
+        }
+
+        confirmOrderButton?.addEventListener('click', () => {
+            console.log('Botón Confirmar Pedido clickeado');
+            const address = deliveryAddressInput?.value.trim();
+            if (!deliveryAddressInput || !address) {
+                const errorMsg = '❌ Por favor, ingresa una dirección de entrega.';
+                console.error(errorMsg);
+                document.getElementById('mensaje').textContent = errorMsg;
+                setTimeout(() => document.getElementById('mensaje').textContent = '', 3000);
+                return;
+            }
+            if (carrito.length === 0) {
+                const errorMsg = '❌ El carrito está vacío.';
+                console.error(errorMsg);
+                document.getElementById('mensaje').textContent = errorMsg;
+                setTimeout(() => document.getElementById('mensaje').textContent = '', 3000);
+                return;
+            }
+
+            const distance = estimateDistance(address);
+            const isFreeDelivery = distance <= 5;
+            registerSale();
+            registerOrder(address, isFreeDelivery);
+
+            const successMsg = `✅ Pedido confirmado. Delivery ${isFreeDelivery ? 'gratis' : 'S/ 5.00'} a ${address}.`;
+            console.log(successMsg);
+            document.getElementById('mensaje').textContent = successMsg;
+            deliveryMessage.textContent = `Entrega estimada: ${isFreeDelivery ? '1-2 horas' : '2-3 horas'} (Distancia: ${distance} km).`;
+            setTimeout(() => {
+                document.getElementById('mensaje').textContent = '';
+                deliveryMessage.textContent = '';
+            }, 5000);
+
+            carrito = [];
+            totalAmount = 0;
+            totalSavings = 0;
+            cart.innerHTML = '';
+            total.textContent = '0.00';
+            voucherItems.innerHTML = '';
+            voucherDetails.textContent = '';
+            promoApplied.classList.add('hidden');
+            promoName.textContent = '';
+            promoSavings.textContent = '0.00';
+        });
+
+        updatePreview();
+    });
+</script>
+</body>
+</html>
